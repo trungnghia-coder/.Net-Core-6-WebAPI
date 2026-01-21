@@ -23,10 +23,13 @@ namespace WebApiNet.Data
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
+        public virtual Category Category { get; set; }
+
         public ICollection<OrderDetail> OrderDetails
         {
             get; set;
         }
+
         public Merchandise()
         {
             OrderDetails = new HashSet<OrderDetail>();

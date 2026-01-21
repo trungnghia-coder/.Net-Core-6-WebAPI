@@ -15,6 +15,7 @@ builder.Services.AddDbContext<MyDBContext>(options =>
 
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoryInMemory>();
+builder.Services.AddScoped<IMerchandiseRepository, MerchandiseRepository>();
 
 // Add services to the container.
 
@@ -46,7 +47,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
