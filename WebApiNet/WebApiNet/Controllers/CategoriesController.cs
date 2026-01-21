@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.Configuration;
-using System.Linq.Expressions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApiNet.Controllers
 {
@@ -17,8 +16,15 @@ namespace WebApiNet.Controllers
         [HttpGet]
         public IActionResult GetCategories()
         {
-            var categories = _context.categories.ToList();
-            return Ok(categories);
+            try
+            {
+                var categories = _context.categories.ToList();
+                return Ok(categories);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}")]
@@ -33,6 +39,7 @@ namespace WebApiNet.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult CreateCategory(Models.CategoryModel model)
         {
             try
@@ -43,7 +50,7 @@ namespace WebApiNet.Controllers
                 };
                 _context.categories.Add(category);
                 _context.SaveChanges();
-                return Ok(category);
+                return StatusCode(StatusCodes.Status201Created, category);
             }
             catch
             {
@@ -52,18 +59,44 @@ namespace WebApiNet.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateCategory(int id)
+        public IActionResult UpdateCategory(int id, Models.CategoryModel model)
         {
             var category = _context.categories.Find(id);
-            if (category != null)
+            if (category == null)
             {
-                category.Name = category.Name;
+                return NotFound();
+            }
+
+            try
+            {
+                category.Name = model.Name;
                 _context.SaveChanges();
                 return NoContent();
             }
-            else
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory(int id)
+        {
+            var category = _context.categories.Find(id);
+            if (category == null)
             {
                 return NotFound();
+            }
+
+            try
+            {
+                _context.categories.Remove(category);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
             }
         }
     }

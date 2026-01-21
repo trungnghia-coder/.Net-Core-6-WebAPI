@@ -417,30 +417,7 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-# ASP.NET Core specific
+# Cấu hình bỏ qua các file cài đặt chứa secret
+appsettings.json
 appsettings.Development.json
-appsettings.Local.json
-appsettings.*.local.json
-**/Properties/launchSettings.json
-
-# Database files (SQLite, etc.)
-*.db
-*.db-shm
-*.db-wal
-*.sqlite
-*.sqlite3
-
-# Connection strings and secrets
-secrets.json
-connectionstrings.json
-
-# JetBrains Rider
-.idea/
-*.sln.iml
-
-# Mac files
-.DS_Store
-
-# Swagger/OpenAPI generated files
-**/wwwroot/swagger/
-
+appsettings.*.json

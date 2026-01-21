@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace WebApiNet.Data
 {
@@ -23,5 +22,14 @@ namespace WebApiNet.Data
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
+
+        public ICollection<OrderDetail> OrderDetails
+        {
+            get; set;
+        }
+        public Merchandise()
+        {
+            OrderDetails = new HashSet<OrderDetail>();
+        }
     }
 }
