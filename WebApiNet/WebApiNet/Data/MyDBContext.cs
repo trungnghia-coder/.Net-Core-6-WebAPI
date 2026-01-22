@@ -9,6 +9,8 @@ namespace WebApiNet.Data
         }
 
         #region DbSet
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Merchandise> Products { get; set; }
         public DbSet<Category> categories { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -37,6 +39,13 @@ namespace WebApiNet.Data
                  .WithMany(o => o.OrderDetails)
                  .HasForeignKey(od => od.OrderId)
                  .HasConstraintName("FK_OrderDetai_Order");
+            });
+
+            modelBuilder.Entity<User>(e =>
+            {
+                e.HasIndex(e => e.Username).IsUnique();
+                e.Property(u => u.FullName).IsRequired().HasMaxLength(150);
+                e.Property(u => u.Email).IsRequired().HasMaxLength(150);
             });
         }
     }

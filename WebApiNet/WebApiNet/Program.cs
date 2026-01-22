@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
 using WebApiNet.Data;
+using WebApiNet.Models;
 using WebApiNet.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<MyDBContext>(options =>
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoryInMemory>();
 builder.Services.AddScoped<IMerchandiseRepository, MerchandiseRepository>();
+builder.Services.Configure<AppSetting>(builder.Configuration.GetSection("AuthSettings"));
 
 // Add services to the container.
 
@@ -40,7 +42,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+
+        ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha256 }
     };
 });
 
