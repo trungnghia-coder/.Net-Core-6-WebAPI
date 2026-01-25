@@ -1,0 +1,6 @@
+@MyAPINetCore_HostAddress = http://localhost:5123
+
+GET {{MyAPINetCore_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
