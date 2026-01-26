@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyAPINetCore.Models;
 using MyAPINetCore.Repositories;
 
@@ -48,6 +49,7 @@ namespace MyAPINetCore.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddBook([FromBody] BookModel book)
         {
             try
@@ -67,6 +69,7 @@ namespace MyAPINetCore.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateBook(int id, [FromBody] BookModel book)
         {
             try
@@ -91,6 +94,7 @@ namespace MyAPINetCore.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteBook(int id)
         {
             try

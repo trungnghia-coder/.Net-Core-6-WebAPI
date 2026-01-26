@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyAPINetCore.Data;
+using MyAPINetCore.Helpers;
 
 namespace MyAPINetCore.Controllers
 {
@@ -17,6 +19,7 @@ namespace MyAPINetCore.Controllers
 
         // GET: api/Books
         [HttpGet]
+        [Authorize(Roles = AppRole.Customer)]
         public async Task<ActionResult<IEnumerable<Books>>> GetBooks()
         {
             return await _context.Books!.ToListAsync();
@@ -24,6 +27,7 @@ namespace MyAPINetCore.Controllers
 
         // GET: api/Books/5
         [HttpGet("{id}")]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<ActionResult<Books>> GetBooks(int id)
         {
             var books = await _context.Books!.FindAsync(id);
